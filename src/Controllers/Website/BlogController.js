@@ -6,7 +6,7 @@ exports.getAllBlogList = async (req, res) => {
           const page = parseInt(req.query.page) || 1;
           const limit = parseInt(req.query.limit) || 10;
           const offset = (page - 1) * limit;
-          let where = {}
+          let where = {};
           const search = req.query.search || '';
           if (search) {
                where = {
@@ -14,16 +14,19 @@ exports.getAllBlogList = async (req, res) => {
                          { heading: { contains: search, mode: 'insensitive' } },
                          { description: { contains: search, mode: 'insensitive' } }
                     ]
-               }
+               };
           }
 
           const [blogs, totalCount] = await Promise.all([
                prisma.blogs.findMany({
+                    where,
                     skip: offset,
                     take: limit,
                     orderBy: { date_at: 'desc' }
                }),
-               prisma.blogs.count()
+               prisma.blogs.count({
+                    where
+               })
           ]);
 
           // Format date
