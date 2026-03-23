@@ -16,10 +16,15 @@ exports.getAllBlogList = async (req, res) => {
                     ]
                };
           }
-          if (category_id) {
-               where.category_id = category_id;
-          }
+          const { categories } = req.query;
 
+          if (categories) {
+               const categoryArray = categories.split(",");
+
+               where.category_id = {
+                    in: categoryArray, // ✅ Prisma syntax
+               };
+          }
           const [blogs, totalCount] = await Promise.all([
                prisma.blogs.findMany({
                     where,

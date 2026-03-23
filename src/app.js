@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true })); // Parse form data
 
 app.use(
     cors({
-        origin: ["http://localhost:3000", "https://blog.gtftechnologies.com"],
+        origin: ["http://localhost:3001", "https://blog.gtftechnologies.com"],
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     })
 );
