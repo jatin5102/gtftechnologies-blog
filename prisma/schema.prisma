@@ -17,18 +17,31 @@ model admin {
 }
 
 model blogs {
-  id               String    @id @default(cuid())
-  slug             String    @unique
-  heading          String
-  feature_image    String?
-  mb_image         String?
-  alt              String?
-  description      String?
-  date_at          DateTime?
-  meta_title       String?
-  meta_keywords    String?
-  meta_description String?
-  status           Boolean   @default(true)
-  created_at       DateTime  @default(now())
-  updated_at       DateTime  @updatedAt
+  id        String     @id @default(cuid())
+  category_id String?
+  category    blog_categories? @relation(fields: [category_id], references: [id])
+  slug      String     @unique
+  heading   String
+  feature_image   String?
+  mb_image        String?
+  alt             String?
+  short_description String?
+  description     String?    @db.Text
+  date_at         DateTime?
+  meta_title      String?
+  meta_keywords   String?
+  meta_description  String?
+  status            Boolean   @default(true)
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+}
+
+model blog_categories {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  status      Boolean    @default(true)
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  blogs       blogs[]
 }
