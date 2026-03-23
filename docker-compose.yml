@@ -1,36 +1,10 @@
-version: "3.9"
 
 services:
-  gtf-blogs:
+  gtf-blog:
     build: .
-    container_name: gtf-blogs_api
+    container_name: gtf-blog
     restart: always
     ports:
-      - "4040:5001"   # Node.js app will be accessible on port 4000
+      - "4040:5001"
     env_file:
       - .env
-    depends_on:
-      - postgres-db
-    networks:
-      - gtf-network
-
-  postgres-db:
-    image: postgres:18
-    container_name: postgres-db
-    restart: always
-    environment:
-      POSTGRES_DB: eldeco_group_db
-      POSTGRES_USER: eldeco_user
-      POSTGRES_PASSWORD: "eldecogroupr99vh772026"
-    ports:
-      - "5432:5432"
-    volumes:
-      - eldeco_pg_data:/var/lib/postgresql
-    networks:
-      - eldeco-network
-
-volumes:
-  eldeco_pg_data:
-
-networks:
-  eldeco-network:

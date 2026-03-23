@@ -14,7 +14,7 @@ exports.getAllBlogList = async (req, res) => {
                          { heading: { contains: search, mode: 'insensitive' } },
                          { description: { contains: search, mode: 'insensitive' } }
                     ]
-               }
+               };
           }
           if (category_id) {
                where.category_id = category_id;
