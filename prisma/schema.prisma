@@ -25,6 +25,8 @@ model admin {
 
 model blogs {
   id        String     @id @default(cuid())
+  category_id String?
+  category    blog_categories? @relation(fields: [category_id], references: [id])
   slug      String     @unique
   heading   String
   feature_image   String?
@@ -39,4 +41,14 @@ model blogs {
   status            Boolean   @default(true)
   created_at        DateTime  @default(now())
   updated_at        DateTime  @updatedAt
+}
+
+model blog_categories {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  status      Boolean    @default(true)
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  blogs       blogs[]
 }

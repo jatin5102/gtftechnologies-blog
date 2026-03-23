@@ -46,6 +46,7 @@ exports.getAllBlog = async (req, res) => {
             prisma.blogs.findMany({
                 skip: offset,
                 take: limit,
+                include: { category: true },
                 orderBy: { date_at: 'desc' }
             }),
             prisma.blogs.count()
@@ -79,7 +80,8 @@ exports.getBlogById = async (req, res) => {
         const id = req.params.id;
 
         const blog = await prisma.blogs.findUnique({
-            where: { id }
+            where: { id },
+            include: { category: true }
         });
 
         if (!blog) {
@@ -100,7 +102,7 @@ exports.getBlogById = async (req, res) => {
 exports.createBlog = async (req, res) => {
     try {
         const {
-            heading, tags, alt, date_at,
+            category_id, heading, tags, alt, date_at,
             short_description, description,
             meta_title, meta_keywords, meta_description
         } = req.body;
@@ -111,6 +113,7 @@ exports.createBlog = async (req, res) => {
 
         const blog = await prisma.blogs.create({
             data: {
+                category_id,
                 slug,
                 heading,
                 tags,
@@ -149,7 +152,7 @@ exports.updateBlog = async (req, res) => {
         const id = req.params.id;
 
         const {
-            heading, tags, alt, date_at,
+            category_id, heading, tags, alt, date_at,
             short_description, description,
             meta_title, meta_keywords, meta_description
         } = req.body;
@@ -181,7 +184,7 @@ exports.updateBlog = async (req, res) => {
 
         // Construct update data
         const updateData = {
-            heading, tags, slug, alt,
+            category_id, heading, tags, slug, alt,
             date_at: date_at ? new Date(date_at) : undefined,
             short_description, description,
             meta_title, meta_keywords, meta_description

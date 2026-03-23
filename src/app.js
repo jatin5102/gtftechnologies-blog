@@ -7,7 +7,13 @@ app.use(express.json()); // Parse JSON
 app.use(express.urlencoded({ extended: true })); // Parse form data
 
 
-app.use(cors());
+app.use(
+    cors({
+        origin: ["http://localhost:3000", "https://blog.gtftechnologies.com"],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    })
+);
+
 app.use('/uploads', express.static('uploads'));
 app.use('/', routes);
 
