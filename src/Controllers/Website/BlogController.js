@@ -138,7 +138,27 @@ exports.getBlogByslug = async (req, res) => {
           res.status(500).json({ error: error.message });
      }
 };
-
+exports.getBlogById = async (req, res) => {
+     const { id } = req.params;
+     try {
+          const blog = await prisma.blogs.findFirst({
+               where: { id },
+               include: { category: true }
+          });
+          if (!blog) {
+               return res.status(404).json({ status: false, statusCode: 404, message: 'Blog not found' });
+          }
+          const record = {
+               ...blog,
+               feature_image: blog.feature_image ? helper.getFileFullPath(blog.feature_image) : null,
+               mb_image: blog.mb_image ? helper.getFileFullPath(blog.mb_image) : null,
+               date_at: blog.date_at ? blog.date_at.toISOString().slice(0, 10) : null
+          };
+          res.status(200).json({ status: true, statusCode: 200, data: record });
+     } catch (error) {
+          res.status(500).json({ error: error.message });
+     }
+};
 
 
 
