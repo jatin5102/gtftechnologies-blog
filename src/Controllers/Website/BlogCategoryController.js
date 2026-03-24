@@ -16,6 +16,18 @@ exports.getList = async (req, res) => {
                };
           }
 
+
+          const { ids } = req.query;
+
+          if (ids) {
+               const idArray = ids.split(",");
+
+               where.id = {
+                    in: idArray, // ✅ Prisma syntax
+               };
+          }
+
+
           const [categories, totalCount] = await Promise.all([
                prisma.blog_categories.findMany({
                     where,

@@ -129,6 +129,8 @@ exports.getBlogByslug = async (req, res) => {
           }
           const record = {
                ...blog,
+               feature_image: blog.feature_image ? helper.getFileFullPath(blog.feature_image) : null,
+               mb_image: blog.mb_image ? helper.getFileFullPath(blog.mb_image) : null,
                date_at: blog.date_at ? blog.date_at.toISOString().slice(0, 10) : null
           };
           res.status(200).json({ status: true, statusCode: 200, data: record });
