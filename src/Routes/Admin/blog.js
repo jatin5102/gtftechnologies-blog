@@ -13,5 +13,7 @@ router.get('/blog/:id', BlogController.getBlogById);
 router.post('/blog', uploadBlog.fields([{ name: 'feature_image', maxCount: 1 }, { name: 'mobile_image', maxCount: 1 }]), validateBlog, BlogController.createBlog);
 router.put('/blog/:id', uploadBlog.fields([{ name: 'feature_image', maxCount: 1 }, { name: 'mobile_image', maxCount: 1 }]), validateBlog, BlogController.updateBlog);
 router.delete('/blog/:id', BlogController.deleteBlog);
+router.post('/blog/is_featured/:id', uploadBlog.none(), BlogController.isFeatured);
+
 
 module.exports = router;

@@ -19,6 +19,7 @@ model admin {
 model blogs {
   id        String     @id @default(cuid())
   category_id String?
+  is_featured Boolean @default(false)
   category    blog_categories? @relation(fields: [category_id], references: [id])
   slug      String     @unique
   heading   String

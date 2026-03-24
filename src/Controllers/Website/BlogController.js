@@ -7,7 +7,7 @@ exports.getAllBlogList = async (req, res) => {
           const limit = parseInt(req.query.limit) || 10;
           const offset = (page - 1) * limit;
           let where = {}
-          const { search, category_id } = req.query;
+          const { search, category_id, is_featured } = req.query;
           if (search) {
                where = {
                     OR: [
@@ -15,6 +15,9 @@ exports.getAllBlogList = async (req, res) => {
                          { description: { contains: search, mode: 'insensitive' } }
                     ]
                };
+          }
+          if (is_featured) {
+               where.is_featured = Boolean(is_featured);
           }
           const { categories } = req.query;
 

@@ -21,15 +21,34 @@ exports.getList = async (req, res) => {
                     where,
                     skip: offset,
                     take: limit,
+                    include: {
+                         blogs: {
+                              take: 3,
+                              orderBy: { date_at: 'desc' }
+                         }
+                    },
                     orderBy: { created_at: 'desc' }
                }),
                prisma.blog_categories.count({ where })
           ]);
+          // image full url 
+          const data = categories.map(category => {
+               return {
+                    ...category,
+                    blogs: category.blogs.map(blog => {
+                         return {
+                              ...blog,
+                              feature_image: blog.feature_image ? helper.getFileFullPath(blog.feature_image) : null,
+                              mb_image: blog.mb_image ? helper.getFileFullPath(blog.mb_image) : null
+                         }
+                    })
+               }
+          })
 
           res.status(200).json({
                status: true,
                statusCode: 200,
-               data: categories,
+               data: data,
                pagination: {
                     total: totalCount,
                     page,
@@ -54,7 +73,7 @@ exports.getByslug = async (req, res) => {
           if (!category) {
                return res.status(404).json({ status: false, statusCode: 404, message: 'Category not found' });
           }
-          
+
           res.status(200).json({ status: true, statusCode: 200, data: category });
      } catch (error) {
           res.status(500).json({ error: error.message });

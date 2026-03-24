@@ -1,7 +1,7 @@
 const path = require('path');
 const { body, validationResult } = require('express-validator');
 const { prisma } = require('../../config/db');
-const { deleteFile, GenerateSlug } = require('../../utils/helper');
+const { deleteFile, GenerateSlug, getFileFullPath } = require('../../utils/helper');
 
 exports.validateBlog = [
     body('heading')
@@ -90,6 +90,8 @@ exports.getBlogById = async (req, res) => {
 
         const result = {
             ...blog,
+            feature_image: blog.feature_image ? getFileFullPath(blog.feature_image) : null,
+            mb_image: blog.mb_image ? getFileFullPath(blog.mb_image) : null,
             date_at: blog.date_at ? blog.date_at.toISOString().slice(0, 10) : null
         };
 
@@ -164,7 +166,7 @@ exports.updateBlog = async (req, res) => {
         if (!existingData) {
             return res.status(404).json({ status: true, statusCode: 200, error: "Record not found" });
         }
-        let mb_image = existingData.mb_image;   
+        let mb_image = existingData.mb_image;
         // Handle updating of images
         if (req.files.feature_image) {
             if (existingData.feature_image) {
@@ -174,12 +176,12 @@ exports.updateBlog = async (req, res) => {
             feature_image = req.files.feature_image[0].path;
         }
 
-        if (req.files.mb_image) {
+        if (req.files.mobile_image) {
             if (existingData.mb_image) {
                 const oldmb_imagePath = path.join(existingData.mb_image);
                 deleteFile(oldmb_imagePath);
             }
-            mb_image = req.files.mb_image[0].path;
+            mb_image = req.files.mobile_image[0].path;
         }
 
         // Construct update data
@@ -214,6 +216,38 @@ exports.updateBlog = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+exports.isFeatured = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { is_featured } = req.body;
+        const existingData = await prisma.blogs.findUnique({ where: { id } });
+        if (!existingData) {
+            return res.status(404).json({ status: true, statusCode: 200, error: "Record not found" });
+        }
+        const updateData = {
+            is_featured: Boolean(is_featured)
+        };
+        const updated = await prisma.blogs.update({
+            where: { id },
+            data: updateData
+        });
+        if (updated) {
+            const record = {
+                ...updated,
+            };
+            res.status(200).json({
+                status: true,
+                statusCode: 200,
+                message: "Featured status updated successfully",
+                data: record
+            });
+        }
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 
 exports.deleteBlog = async (req, res) => {
     try {

@@ -69,7 +69,14 @@ const fileFilter = (req, file, cb) => {
  
 
 // Reusable function to create different upload instances
-const uploadBlog = multer({storage: storage('blog'), fileFilter: fileFilter })
+const uploadBlog = multer({
+     storage: storage('blog'),
+     fileFilter: fileFilter,
+     limits: {
+          fieldSize: 20 * 1024 * 1024, // 20MB for text fields
+          fileSize: 10 * 1024 * 1024   // 10MB for files
+     }
+})
 
 module.exports = {
      uploadBlog,
