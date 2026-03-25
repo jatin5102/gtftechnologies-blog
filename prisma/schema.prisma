@@ -50,7 +50,7 @@ model blog_toc {
   status      Boolean    @default(true)
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
-  blog        blogs?     @relation(fields: [blog_id], references: [id])
+  blog        blogs?     @relation(fields: [blog_id], references: [id], onDelete: Cascade)
 }
 
 

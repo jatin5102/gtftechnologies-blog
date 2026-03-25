@@ -122,7 +122,7 @@ exports.getBlogByslug = async (req, res) => {
      try {
           const blog = await prisma.blogs.findFirst({
                where: { slug },
-               include: { category: true }
+               include: { category: true, toc: true }
           });
           if (!blog) {
                return res.status(404).json({ status: false, statusCode: 404, message: 'Blog not found' });
@@ -143,7 +143,7 @@ exports.getBlogById = async (req, res) => {
      try {
           const blog = await prisma.blogs.findFirst({
                where: { id },
-               include: { category: true }
+               include: { category: true, toc: true }
           });
           if (!blog) {
                return res.status(404).json({ status: false, statusCode: 404, message: 'Blog not found' });
