@@ -11,8 +11,13 @@ services:
       - .env
     networks:
       - shared-network
+    volumes:
+      - uploads_data:/uploads
 
 networks:
   shared-network:
     external: true
     name: eldecogroup-backend_eldeco-network
+
+volumes:
+  uploads_data:
