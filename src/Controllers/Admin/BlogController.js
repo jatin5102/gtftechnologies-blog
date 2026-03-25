@@ -55,6 +55,9 @@ exports.getAllBlog = async (req, res) => {
         // Format date
         const data = blogs.map(blog => ({
             ...blog,
+            // image show
+            feature_image: blog.feature_image ? getFileFullPath(blog.feature_image) : null,
+            mb_image: blog.mb_image ? getFileFullPath(blog.mb_image) : null,
             date_at: blog.date_at ? blog.date_at.toISOString().slice(0, 10) : null
         }));
 
