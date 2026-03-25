@@ -36,6 +36,7 @@ model blogs {
   created_at        DateTime  @default(now())
   updated_at        DateTime  @updatedAt
   toc               blog_toc[]
+  faq               blog_faq[]
 }
 
 
@@ -54,6 +55,18 @@ model blog_toc {
 }
 
 
+model blog_faq {
+  id          String     @id @default(cuid())
+  blog_id     String
+  question    String
+  answer      String?    @db.Text
+  status      Boolean    @default(true)
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  blog        blogs?     @relation(fields: [blog_id], references: [id], onDelete: Cascade)
+}
+
+
 model blog_categories {
   id          String     @id @default(cuid())
   name        String     @unique
@@ -63,3 +76,5 @@ model blog_categories {
   updated_at  DateTime   @updatedAt
   blogs       blogs[]
 }
+
+
