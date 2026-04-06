@@ -17,68 +17,61 @@ model admin {
 }
 
 model blogs {
-  id        String     @id @default(cuid())
-  category_id String?
-  is_featured Boolean @default(false)
-  category    blog_categories? @relation(fields: [category_id], references: [id])
-  slug      String     @unique
-  heading   String
-  feature_image   String?
-  mb_image        String?
-  alt             String?
-  short_description String?
-  description     String?    @db.Text
-  date_at         DateTime?
-  meta_title      String?
-  meta_keywords   String?
+  id                String           @id @default(cuid())
+  slug              String           @unique
+  heading           String
+  feature_image     String?
+  mb_image          String?
+  alt               String?
+  description       String?
+  date_at           DateTime?
+  meta_title        String?
+  meta_keywords     String?
   meta_description  String?
-  body_tags  String?
-  head_tags  String?
-
-
-  status            Boolean   @default(true)
-  created_at        DateTime  @default(now())
-  updated_at        DateTime  @updatedAt
-  toc               blog_toc[]
+  status            Boolean          @default(true)
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
+  short_description String?
+  category_id       String?
+  is_featured       Boolean          @default(false)
+  body_tags         String?
+  head_tags         String?
+  tags              String?
   faq               blog_faq[]
+  toc               blog_toc[]
+  category          blog_categories? @relation(fields: [category_id], references: [id])
 }
-
-
 
 model blog_toc {
-  id          String     @id @default(cuid())
+  id          String   @id @default(cuid())
   blog_id     String
-  toc_heading  String?
+  toc_heading String?
   title       String?
   slug        String?
-  description     String?    @db.Text
-  status      Boolean    @default(true)
-  created_at  DateTime   @default(now())
-  updated_at  DateTime   @updatedAt
-  blog        blogs?     @relation(fields: [blog_id], references: [id], onDelete: Cascade)
+  description String?
+  status      Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  blog        blogs    @relation(fields: [blog_id], references: [id], onDelete: Cascade)
 }
-
 
 model blog_faq {
-  id          String     @id @default(cuid())
-  blog_id     String
-  question    String
-  answer      String?    @db.Text
-  status      Boolean    @default(true)
-  created_at  DateTime   @default(now())
-  updated_at  DateTime   @updatedAt
-  blog        blogs?     @relation(fields: [blog_id], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  blog_id    String
+  question   String
+  answer     String?
+  status     Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  blog       blogs    @relation(fields: [blog_id], references: [id], onDelete: Cascade)
 }
-
 
 model blog_categories {
-  id          String     @id @default(cuid())
-  name        String     @unique
-  slug        String     @unique
-  status      Boolean    @default(true)
-  created_at  DateTime   @default(now())
-  updated_at  DateTime   @updatedAt
-  blogs       blogs[]
+  id         String   @id @default(cuid())
+  name       String   @unique
+  slug       String   @unique
+  status     Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  blogs      blogs[]
 }
-
-
