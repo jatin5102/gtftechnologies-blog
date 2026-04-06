@@ -12,7 +12,7 @@ services:
     networks:
       - shared-network
     volumes:
-      - uploads_data:/uploads
+      - uploads_data:/src/uploads
 
 networks:
   shared-network:
