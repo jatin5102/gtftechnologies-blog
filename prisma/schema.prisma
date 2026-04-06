@@ -32,6 +32,10 @@ model blogs {
   meta_title      String?
   meta_keywords   String?
   meta_description  String?
+  body_tags  String?
+  head_tags  String?
+
+
   status            Boolean   @default(true)
   created_at        DateTime  @default(now())
   updated_at        DateTime  @updatedAt

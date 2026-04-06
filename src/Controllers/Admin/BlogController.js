@@ -109,7 +109,7 @@ exports.createBlog = async (req, res) => {
         const {
             category_id, heading, tags, alt, date_at,
             short_description, description,
-            meta_title, meta_keywords, meta_description
+            meta_title, meta_keywords, meta_description, head_tags, body_tags
         } = req.body;
 
         const feature_image = req.files.feature_image ? req.files.feature_image[0].path : null;
@@ -130,7 +130,10 @@ exports.createBlog = async (req, res) => {
                 description,
                 meta_title,
                 meta_keywords,
-                meta_description
+                meta_description,
+                head_tags,
+                body_tags
+
             }
         });
 
@@ -192,6 +195,8 @@ exports.updateBlog = async (req, res) => {
             category_id, heading, tags, slug, alt,
             date_at: date_at ? new Date(date_at) : undefined,
             short_description, description,
+            head_tags,
+            body_tags,
             meta_title, meta_keywords, meta_description
         };
         if (feature_image) updateData.feature_image = feature_image;
