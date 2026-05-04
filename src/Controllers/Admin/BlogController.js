@@ -162,11 +162,11 @@ exports.updateBlog = async (req, res) => {
         const {
             category_id, heading, tags, alt, date_at,
             short_description, description,
-            meta_title, meta_keywords, meta_description, head_tags, body_tags
+            meta_title, meta_keywords, meta_description, head_tags, body_tags, slug
         } = req.body;
         let feature_image = req.body.feature_image;
 
-        const slug = GenerateSlug(heading);
+
 
         const existingData = await prisma.blogs.findUnique({ where: { id } });
         if (!existingData) {
