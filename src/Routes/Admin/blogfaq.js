@@ -12,5 +12,6 @@ router.get('/blog-faq/:id', BlogFaqController.Show);
 router.post('/blog-faq', uploadBlog.none(), validateBlogFaq, BlogFaqController.Create);
 router.put('/blog-faq/:id', uploadBlog.none(), validateBlogFaq, BlogFaqController.Update);
 router.delete('/blog-faq/:id', BlogFaqController.Delete);
+router.post('/blog-faq/sort-faq/:id', uploadBlog.none(), BlogFaqController.sortFaq);
 
 module.exports = router;

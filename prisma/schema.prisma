@@ -60,6 +60,7 @@ model blog_faq {
   blog_id    String
   question   String
   answer     String?
+  seq        Int      @default(0)
   status     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

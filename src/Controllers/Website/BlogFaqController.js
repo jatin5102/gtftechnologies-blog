@@ -19,7 +19,7 @@ exports.getAllFaqList = async (req, res) => {
           const [data, totalCount] = await Promise.all([
                prisma.blog_faq.findMany({
                     where,
-                    orderBy: { created_at: 'desc' }
+                    orderBy: { seq: 'asc' }
                }),
                prisma.blog_faq.count({ where })
           ]);

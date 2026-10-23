@@ -161,3 +161,36 @@ exports.Delete = async (req, res) => {
         res.status(500).json({ status: false, statusCode: 500, error: err.message });
     }
 };
+
+
+
+//---------------------------------------
+// Sort FAQ Items ( Drag & Drop )
+//---------------------------------------
+exports.sortFaq = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { sort } = req.body;
+
+        const existing = await prisma.blog_faq.findUnique({ where: { id } });
+        if (!existing) {
+            return res.status(404).json({ status: false, statusCode: 404, error: "Record not found" });
+        }
+
+        const updated = await prisma.blog_faq.update({
+            where: { id },
+            data: {
+                seq: parseInt(sort)
+            }
+        });
+
+        res.status(200).json({
+            status: true,
+            statusCode: 200,
+            message: "FAQ sorted successfully",
+            data: updated
+        });
+    } catch (error) {
+        res.status(500).json({ status: false, statusCode: 500, error: error.message });
+    }
+};
