@@ -49,6 +49,7 @@ model blog_toc {
   title       String?
   slug        String?
   description String?
+  seq         Int      @default(0)
   status      Boolean  @default(true)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt

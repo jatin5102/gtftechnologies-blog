@@ -44,7 +44,7 @@ exports.getAllBlogToc = async (req, res) => {
                 where,
                 skip: offset,
                 take: limit,
-                orderBy: { created_at: 'desc' },
+                orderBy: { seq: 'desc' },
                 include: { blog: true }
             }),
             prisma.blog_toc.count({ where })
@@ -163,5 +163,34 @@ exports.deleteBlogToc = async (req, res) => {
         res.json({ status: true, statusCode: 200, message: "Record deleted successfully" });
     } catch (err) {
         res.status(500).json({ status: false, statusCode: 500, error: err.message });
+    }
+};
+
+
+exports.sortToc = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { seq } = req.body;
+
+        const existing = await prisma.blog_toc.findUnique({ where: { id } });
+        if (!existing) {
+            return res.status(404).json({ status: false, statusCode: 404, error: "Record not found" });
+        }
+
+        const updated = await prisma.blog_toc.update({
+            where: { id },
+            data: {
+                seq: parseInt(seq)
+            }
+        });
+
+        res.status(200).json({
+            status: true,
+            statusCode: 200,
+            message: "FAQ sorted successfully",
+            data: updated
+        });
+    } catch (error) {
+        res.status(500).json({ status: false, statusCode: 500, error: error.message });
     }
 };

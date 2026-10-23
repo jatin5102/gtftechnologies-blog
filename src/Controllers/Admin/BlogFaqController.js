@@ -46,7 +46,7 @@ exports.Index = async (req, res) => {
                 where,
                 skip: offset,
                 take: limit,
-                orderBy: { created_at: 'desc' },
+                orderBy: { seq: 'asc' },
                 include: { blog: true }
             }),
             prisma.blog_faq.count({ where })

@@ -24,14 +24,12 @@ exports.getAllTocList = async (req, res) => {
                     where,
                     skip: offset,
                     take: limit,
-                    orderBy: { created_at: 'desc' }
+                    orderBy: { seq: 'asc' }
                }),
                prisma.blog_toc.count({ where })
           ]);
 
-          // Format date
-          ;
-
+          
           res.status(200).json({
                status: true,
                statusCode: 200,

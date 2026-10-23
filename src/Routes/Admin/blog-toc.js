@@ -12,5 +12,6 @@ router.get('/blog-toc/:id', BlogTocController.getBlogTocById);
 router.post('/blog-toc', uploadBlog.none(), validateBlogToc, BlogTocController.createBlogToc);
 router.put('/blog-toc/:id', uploadBlog.none(), validateBlogToc, BlogTocController.updateBlogToc);
 router.delete('/blog-toc/:id', BlogTocController.deleteBlogToc);
+router.post('/blog-toc/sort-toc/:id', uploadBlog.none(), BlogTocController.sortToc);
 
 module.exports = router;
