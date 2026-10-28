@@ -29,7 +29,7 @@ exports.getAllTocList = async (req, res) => {
                prisma.blog_toc.count({ where })
           ]);
 
-          
+
           res.status(200).json({
                status: true,
                statusCode: 200,
